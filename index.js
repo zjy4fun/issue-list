@@ -10,7 +10,7 @@ const time = new Date().toLocaleString('zh-CN', options);
 console.log(time);
 
 // 写入文件
-fs.writeFile(filePath, 'hello world\n' + time, (err) => {
+fs.writeFile(filePath, 'hello world\n\n' + time, (err) => {
     if (err) {
         console.log(err);
     } else {
