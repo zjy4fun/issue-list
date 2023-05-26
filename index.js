@@ -7,10 +7,11 @@ const filePath = path.resolve(__dirname, 'README.md');
 const {repos} = require('./repos')
 
 const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
-
+const data = []
 Promise.all(repos.map(async (repo) => {
     try {
         const res = await axios.get(`https://api.github.com/repos/${repo}/issues?state=open&sort=created`)
+        // console.log(res.data)
         return {
             repo,
             data: res.data.map(issue => ({
@@ -21,18 +22,16 @@ Promise.all(repos.map(async (repo) => {
             }))
         };
     } catch (err) {
-        console.error(err);
+        console.log(err);
         return { repo, data: [] };
     }
 })).then((responses) => {
-    // 所有请求都已经执行完毕
     const issues = {};
     responses.forEach(response => {
         issues[response.repo] = response.data;
     });
-    console.log(issues);
-    // 继续执行下一步操作
-    const data = []
+    console.log(`issues: ${JSON.stringify(issues)}`);
+    console.log(`responses: ${JSON.stringify(responses)}`)
     for (const repo in issues) {
         data.push({
             h2: repo
@@ -46,14 +45,20 @@ Promise.all(repos.map(async (repo) => {
             }))
         })
     }
+    if(data.length === 0) {
+        data.push({
+            h2: 'GitHub 接口调用频率限制'
+        })
+    }
+}).catch((err => {
+   console.log('获取数据失败：', err)
+})).finally(() => {
     fs.writeFile(filePath, json2md(data), (err) => {
         if (err) {
-            console.log(err);
+            console.log('写入数据失败', err);
         } else {
             console.log('写入成功');
         }
     })
-}).catch((err => {
-   console.error(err)
-}))
+})
 
