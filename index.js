@@ -50,9 +50,6 @@ Promise.all(repos.map(async (repo) => {
             h2: 'GitHub 接口调用频率限制'
         })
     }
-}).catch((err => {
-   console.log('获取数据失败：', err)
-})).finally(() => {
     fs.writeFile(filePath, json2md(data), (err) => {
         if (err) {
             console.log('写入数据失败', err);
@@ -60,5 +57,7 @@ Promise.all(repos.map(async (repo) => {
             console.log('写入成功');
         }
     })
-})
+}).catch((err => {
+   console.log('获取数据失败：', err)
+}))
 
