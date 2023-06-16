@@ -1,6 +1,6 @@
 const repos = [
-    'halo-dev/halo',
-    'halo-sigs/plugin-comment-widget'
+    'element-plus/element-plus',
+    'arco-design/arco-design-pro-vue'
 ]
 
 module.exports = {
