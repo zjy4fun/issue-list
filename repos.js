@@ -1,6 +1,7 @@
 const repos = [
-    'element-plus/element-plus',
-    'arco-design/arco-design-pro-vue'
+    'lycarrot/waterfall3',
+    'imzbf/vue3-admin',
+    'JasKang/rubic'
 ]
 
 module.exports = {
